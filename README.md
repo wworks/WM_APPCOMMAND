@@ -80,7 +80,7 @@ Actions(the stuff you find in programs like word, etc)
   
 Further explanation can be found on the microsoft website.
 
-I haven't tested all of them, there might be some slight mistakes with the hex notation(it's pretty weird how it works in vb)
+I haven't tested all of them, but not all of them seem to work.
 
 William Wernsen
   
