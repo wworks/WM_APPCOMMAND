@@ -25,7 +25,7 @@ Media
 * PreviousTrack  
 * Play
 * Pause
-* PlayPause(Use this one instead of Play or Pause)
+* PlayPause
 * Record
 * Rewind
 * Stop
@@ -80,7 +80,7 @@ Actions(the stuff you find in programs like word, etc)
   
 Further explanation can be found on the microsoft website.
 
-I haven't tested all of them, but not all of them seem to work.
+I haven't tested all of them, but not all of them seem to work, e.g. Browser.Back
 
 William Wernsen
   
