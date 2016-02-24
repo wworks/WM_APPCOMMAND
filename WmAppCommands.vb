@@ -11,19 +11,19 @@ Public Class WmAppCommands
     End Function
     Public Shared Sub DoCommand(handle As Integer, CommandCode As Integer)
         SendMessageW(handle, WM_APPCOMMAND,
-                     handle, New IntPtr(CommandCode))
+                     handle, New IntPtr(CommandCode << 16))
 
     End Sub
 
     Public Class Browser
         Private Enum BrowserValues
-            APPCOMMAND_BROWSER_BACKWARD = &H10000
-            APPCOMMAND_BROWSER_FAVORITES = &H60000
-            APPCOMMAND_BROWSER_FORWARD = &H20000
-            APPCOMMAND_BROWSER_HOME = &H70000
-            APPCOMMAND_BROWSER_REFRESH = &H30000
-            APPCOMMAND_BROWSER_SEARCH = &H50000
-            APPCOMMAND_BROWSER_STOP = &H40000
+            APPCOMMAND_BROWSER_BACKWARD = 1
+            APPCOMMAND_BROWSER_FAVORITES = 6
+            APPCOMMAND_BROWSER_FORWARD = 2
+            APPCOMMAND_BROWSER_HOME = 7
+            APPCOMMAND_BROWSER_REFRESH = 3
+            APPCOMMAND_BROWSER_SEARCH = 5
+            APPCOMMAND_BROWSER_STOP = 4
         End Enum
 
         Public Shared Sub Backward(Handle As Integer)
@@ -44,23 +44,23 @@ Public Class WmAppCommands
         Public Shared Sub Search(Handle As Integer)
             DoCommand(Handle, BrowserValues.APPCOMMAND_BROWSER_SEARCH)
         End Sub
-        Public Shared Sub StopBrowser(Handle As Integer)
+        Public Shared Sub StopDownload(Handle As Integer)
             DoCommand(Handle, BrowserValues.APPCOMMAND_BROWSER_STOP)
         End Sub
     End Class
     Public Class Media
         Public Enum MediaValues
-            APPCOMMAND_MEDIA_CHANNEL_DOWN = &H34000
-            APPCOMMAND_MEDIA_CHANNEL_UP = &H33000
-            APPCOMMAND_MEDIA_FAST_FORWARD = &H31000
-            APPCOMMAND_MEDIA_NEXTTRACK = &HB000
-            APPCOMMAND_MEDIA_PAUSE = &H2F000
-            APPCOMMAND_MEDIA_PLAY = &H2E000
-            APPCOMMAND_MEDIA_PLAY_PAUSE = &HE0000
-            APPCOMMAND_MEDIA_PREVIOUSTRACK = &HC0000
-            APPCOMMAND_MEDIA_RECORD = &H30000
-            APPCOMMAND_MEDIA_REWIND = &H32000
-            APPCOMMAND_MEDIA_STOP = &HD0000
+            APPCOMMAND_MEDIA_CHANNEL_DOWN = 52
+            APPCOMMAND_MEDIA_CHANNEL_UP = 51
+            APPCOMMAND_MEDIA_FAST_FORWARD = 49
+            APPCOMMAND_MEDIA_NEXTTRACK = 11
+            APPCOMMAND_MEDIA_PAUSE = 47
+            APPCOMMAND_MEDIA_PLAY = 46
+            APPCOMMAND_MEDIA_PLAY_PAUSE = 14
+            APPCOMMAND_MEDIA_PREVIOUSTRACK = 12
+            APPCOMMAND_MEDIA_RECORD = 48
+            APPCOMMAND_MEDIA_REWIND = 50
+            APPCOMMAND_MEDIA_STOP = 13
         End Enum
         Public Shared Sub ChannelDown(Handle As Integer)
             DoCommand(Handle, MediaValues.APPCOMMAND_MEDIA_CHANNEL_DOWN)
@@ -78,10 +78,11 @@ Public Class WmAppCommands
             DoCommand(Handle, MediaValues.APPCOMMAND_MEDIA_PAUSE)
         End Sub
         Public Shared Sub Play(Handle As Integer)
+
             DoCommand(Handle, MediaValues.APPCOMMAND_MEDIA_PLAY)
         End Sub
         Public Shared Sub PlayPause(Handle As Integer)
-            DoCommand(Handle, MediaValues.APPCOMMAND_MEDIA_PLAY_PAUSE)
+            DoCommand(Handle, MediaValues.APPCOMMAND_MEDIA_PLAY_PAUSE << 16)
         End Sub
         Public Shared Sub PreviousTrack(Handle As Integer)
             DoCommand(Handle, MediaValues.APPCOMMAND_MEDIA_PREVIOUSTRACK)
@@ -98,10 +99,10 @@ Public Class WmAppCommands
     End Class
     Public Class Microphone
         Public Enum MicrophoneValues
-            APPCOMMAND_MIC_ON_OFF_TOGGLE = &H2C000
-            APPCOMMAND_MICROPHONE_VOLUME_DOWN = &H19000
-            APPCOMMAND_MICROPHONE_VOLUME_MUTE = &H18000
-            APPCOMMAND_MICROPHONE_VOLUME_UP = &H1A000
+            APPCOMMAND_MIC_ON_OFF_TOGGLE = 44
+            APPCOMMAND_MICROPHONE_VOLUME_DOWN = 25
+            APPCOMMAND_MICROPHONE_VOLUME_MUTE = 24
+            APPCOMMAND_MICROPHONE_VOLUME_UP = 26
         End Enum
         Public Shared Sub OnOffToggle(Handle As Integer)
             DoCommand(Handle, MicrophoneValues.APPCOMMAND_MIC_ON_OFF_TOGGLE)
@@ -120,25 +121,26 @@ Public Class WmAppCommands
     Public Class Sound
         Public Class Volume
             Public Enum VolumeValues
-                APPCOMMAND_VOLUME_DOWN = &H90000
-                APPCOMMAND_VOLUME_MUTE = &H80000
-                APPCOMMAND_VOLUME_UP = &HA0000
+                APPCOMMAND_VOLUME_DOWN = 9
+                APPCOMMAND_VOLUME_MUTE = 8
+                APPCOMMAND_VOLUME_UP = 10
             End Enum
             Public Shared Sub Down(Handle As Integer)
-                DoCommand(Handle, VolumeValues.APPCOMMAND_VOLUME_DOWN)
+                DoCommand(Handle, VolumeValues.APPCOMMAND_VOLUME_DOWN << 16)
             End Sub
             Public Shared Sub Up(Handle As Integer)
                 DoCommand(Handle, VolumeValues.APPCOMMAND_VOLUME_UP)
             End Sub
             Public Shared Sub Mute(Handle As Integer)
-                DoCommand(Handle, VolumeValues.APPCOMMAND_VOLUME_MUTE)
+                DoCommand(Handle, VolumeValues.APPCOMMAND_VOLUME_MUTE << 16)
+                DoCommand(Handle, 8 << 16)
             End Sub
         End Class
         Public Class Bass
             Public Enum BassValues
-                APPCOMMAND_BASS_BOOST = &H14000
-                APPCOMMAND_BASS_DOWN = &H13000
-                APPCOMMAND_BASS_UP = &H15000
+                APPCOMMAND_BASS_BOOST = 20
+                APPCOMMAND_BASS_DOWN = 19
+                APPCOMMAND_BASS_UP = 21
 
             End Enum
             Public Shared Sub Down(Handle As Integer)
@@ -153,8 +155,8 @@ Public Class WmAppCommands
         End Class
         Public Class Treble
             Public Enum TrebleValues
-                APPCOMMAND_TREBLE_DOWN = &H16000
-                APPCOMMAND_TREBLE_UP = &H17000
+                APPCOMMAND_TREBLE_DOWN = 22
+                APPCOMMAND_TREBLE_UP = 23
             End Enum
             Public Shared Sub Down(Handle As Integer)
                 DoCommand(Handle, TrebleValues.APPCOMMAND_TREBLE_DOWN)
@@ -166,10 +168,10 @@ Public Class WmAppCommands
     End Class
     Public Class Launch
         Public Enum LaunchValues
-            APPCOMMAND_LAUNCH_MAIL = &HF0000
-            APPCOMMAND_LAUNCH_MEDIA_SELECT = &H10000
-            APPCOMMAND_LAUNCH_APP1 = &H11000
-            APPCOMMAND_LAUNCH_APP2 = &H12000
+            APPCOMMAND_LAUNCH_MAIL = 15 '&HF0000
+            APPCOMMAND_LAUNCH_MEDIA_SELECT = 16
+            APPCOMMAND_LAUNCH_APP1 = 17
+            APPCOMMAND_LAUNCH_APP2 = 18
         End Enum
         Public Shared Sub Mail(Handle As Integer)
             DoCommand(Handle, LaunchValues.APPCOMMAND_LAUNCH_MAIL)
@@ -189,9 +191,9 @@ Public Class WmAppCommands
     Public Class Actions
         Public Class Clipboard
             Public Enum ClipboardValues
-                APPCOMMAND_COPY = &H24000
-                APPCOMMAND_CUT = &H25000
-                APPCOMMAND_PASTE = &H26000
+                APPCOMMAND_COPY = 36
+                APPCOMMAND_CUT = 37
+                APPCOMMAND_PASTE = 38
             End Enum
             Public Shared Sub CopySelection(Handle As Integer)
                 DoCommand(Handle, ClipboardValues.APPCOMMAND_COPY)
@@ -205,9 +207,9 @@ Public Class WmAppCommands
         End Class
         Public Class Mail
             Public Enum MailValues
-                APPCOMMAND_REPLY_TO_MAIL = &H27000
-                APPCOMMAND_FORWARD_MAIL = &H28000
-                APPCOMMAND_SEND_MAIL = &H29000
+                APPCOMMAND_REPLY_TO_MAIL = 39
+                APPCOMMAND_FORWARD_MAIL = 40
+                APPCOMMAND_SEND_MAIL = 41
             End Enum
             Public Shared Sub ReplyToMail(Handle As Integer)
                 DoCommand(Handle, MailValues.APPCOMMAND_REPLY_TO_MAIL)
@@ -221,19 +223,19 @@ Public Class WmAppCommands
         End Class
 
         Public Enum ActionsValues
-            APPCOMMAND_FIND = &H1C000
-            APPCOMMAND_HELP = &H1B000
-            APPCOMMAND_NEW = &H1D000
-            APPCOMMAND_OPEN = &H1E000
-            APPCOMMAND_CLOSE = &H1F000
-            APPCOMMAND_SAVE = &H20000
-            APPCOMMAND_PRINT = &H21000
-            APPCOMMAND_UNDO = &H22000
-            APPCOMMAND_REDO = &H23000
+            APPCOMMAND_FIND = 28
+            APPCOMMAND_HELP = 27
+            APPCOMMAND_NEW = 29
+            APPCOMMAND_OPEN = 30
+            APPCOMMAND_CLOSE = 31
+            APPCOMMAND_SAVE = 32
+            APPCOMMAND_PRINT = 33
+            APPCOMMAND_UNDO = 34
+            APPCOMMAND_REDO = 35
 
-            APPCOMMAND_SPELL_CHECK = &H2A000
-            APPCOMMAND_DICTATE_OR_COMMAND_CONTROL_TOGGLE = &H2B000
-            APPCOMMAND_CORRECTION_LIST = &H2D000
+            APPCOMMAND_SPELL_CHECK = 42
+            APPCOMMAND_DICTATE_OR_COMMAND_CONTROL_TOGGLE = 43
+            APPCOMMAND_CORRECTION_LIST = 45
         End Enum
         Public Shared Sub Find(Handle As Integer)
             DoCommand(Handle, ActionsValues.APPCOMMAND_FIND)
@@ -272,58 +274,5 @@ Public Class WmAppCommands
             DoCommand(Handle, ActionsValues.APPCOMMAND_CORRECTION_LIST)
         End Sub
     End Class
-    Private Enum AllCommandCodes
-        APPCOMMAND_BASS_BOOST = &H14000
-        APPCOMMAND_BASS_DOWN = &H13000
-        APPCOMMAND_BASS_UP = &H15000
-        APPCOMMAND_BROWSER_BACKWARD = &H10000
-        APPCOMMAND_BROWSER_FAVORITES = &H60000
-        APPCOMMAND_BROWSER_FORWARD = &H20000
-        APPCOMMAND_BROWSER_HOME = &H70000
-        APPCOMMAND_BROWSER_REFRESH = &H30000
-        APPCOMMAND_BROWSER_SEARCH = &H50000
-        APPCOMMAND_BROWSER_STOP = &H40000
-        APPCOMMAND_CLOSE = &H1F000
-        APPCOMMAND_COPY = &H24000
-        APPCOMMAND_CORRECTION_LIST = &H2D000
-        APPCOMMAND_CUT = &H25000
-        APPCOMMAND_DICTATE_OR_COMMAND_CONTROL_TOGGLE = &H2B000
-        APPCOMMAND_FIND = &H1C000
-        APPCOMMAND_FORWARD_MAIL = &H28000
-        APPCOMMAND_HELP = &H1B000
-        APPCOMMAND_LAUNCH_APP1 = &H11000
-        APPCOMMAND_LAUNCH_APP2 = &H12000
-        APPCOMMAND_LAUNCH_MAIL = &HF0000
-        APPCOMMAND_LAUNCH_MEDIA_SELECT = &H10000
-        APPCOMMAND_MEDIA_CHANNEL_DOWN = &H34000
-        APPCOMMAND_MEDIA_CHANNEL_UP = &H33000
-        APPCOMMAND_MEDIA_FAST_FORWARD = &H31000
-        APPCOMMAND_MEDIA_NEXTTRACK = &HB000
-        APPCOMMAND_MEDIA_PAUSE = &H2F000
-        APPCOMMAND_MEDIA_PLAY = &H2E000
-        APPCOMMAND_MEDIA_PLAY_PAUSE = &HE0000
-        APPCOMMAND_MEDIA_PREVIOUSTRACK = &HC0000
-        APPCOMMAND_MEDIA_RECORD = &H30000
-        APPCOMMAND_MEDIA_REWIND = &H32000
-        APPCOMMAND_MEDIA_STOP = &HD0000
-        APPCOMMAND_MICROPHONE_VOLUME_DOWN = &H19000
-        APPCOMMAND_MICROPHONE_VOLUME_MUTE = &H18000
-        APPCOMMAND_MICROPHONE_VOLUME_UP = &H1A000
-        APPCOMMAND_MIC_ON_OFF_TOGGLE = &H2C000
-        APPCOMMAND_NEW = &H1D000
-        APPCOMMAND_OPEN = &H1E000
-        APPCOMMAND_PASTE = &H26000
-        APPCOMMAND_PRINT = &H21000
-        APPCOMMAND_REDO = &H23000
-        APPCOMMAND_REPLY_TO_MAIL = &H27000
-        APPCOMMAND_SAVE = &H20000
-        APPCOMMAND_SEND_MAIL = &H29000
-        APPCOMMAND_SPELL_CHECK = &H2A000
-        APPCOMMAND_TREBLE_DOWN = &H16000
-        APPCOMMAND_TREBLE_UP = &H17000
-        APPCOMMAND_UNDO = &H22000
-        APPCOMMAND_VOLUME_DOWN = &H90000
-        APPCOMMAND_VOLUME_MUTE = &H80000
-        APPCOMMAND_VOLUME_UP = &HA0000
-    End Enum
+
 End Class
